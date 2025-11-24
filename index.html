@@ -2,478 +2,709 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>2024 公司年度报告</title>
-    <!-- 引入 Swiper CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    <!-- 引入 Animate.css 用于入场动画 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-    <!-- 引入 Google Fonts 增加高级感 -->
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
-
-    <style>
-        /* --- 全局基础设置 --- */
-        :root {
-            --primary-gold: #d4af37;
-            --secondary-gold: #f3e5ab;
-            --bg-color: #090c10;
-            --text-white: #f0f0f0;
-            --glass-bg: rgba(255, 255, 255, 0.05);
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025年度总结报告</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#165DFF',
+                        secondary: '#36CFC9',
+                        accent: '#FF7D00',
+                        dark: '#1D2129',
+                        light: '#F2F3F5'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'PingFang SC', 'Microsoft YaHei', 'sans-serif'],
+                    },
+                }
+            }
         }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body, html {
-            height: 100%;
-            background-color: var(--bg-color);
-            font-family: 'Noto Serif SC', serif; /* 中文衬线体 */
-            color: var(--text-white);
-            overflow: hidden;
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .transition-custom {
+                transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            .scroll-indicator {
+                height: 3px;
+                background: linear-gradient(90deg, #165DFF, #36CFC9);
+                width: 0%;
+                position: fixed;
+                top: 0;
+                left: 0;
+                z-index: 100;
+                transition: width 0.2s ease;
+            }
         }
-
-        /* --- Swiper 容器设置 --- */
-        .swiper {
-            width: 100%;
-            height: 100%;
-        }
-
-        .swiper-slide {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            background: radial-gradient(circle at center, #1a202c 0%, #000000 100%);
-        }
-
-        /* --- 装饰元素 --- */
-        .bg-circle {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(60px);
-            opacity: 0.3;
-            z-index: 0;
-        }
-        .c1 { width: 300px; height: 300px; background: var(--primary-gold); top: -50px; left: -50px; }
-        .c2 { width: 200px; height: 200px; background: #4a90e2; bottom: -50px; right: -50px; }
-
-        /* --- 通用文本样式 --- */
-        .h-en {
-            font-family: 'Playfair Display', serif;
-            font-style: italic;
-            color: var(--primary-gold);
-            opacity: 0.6;
-            font-size: 1rem;
-            letter-spacing: 2px;
-            margin-bottom: 10px;
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            background: linear-gradient(45deg, var(--secondary-gold), var(--primary-gold));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 20px;
-            z-index: 1;
-            text-align: center;
-        }
-
-        p {
-            font-size: 1rem;
-            line-height: 1.6;
-            color: #ccc;
-            max-width: 80%;
-            text-align: center;
-            z-index: 1;
-        }
-
-        /* --- 提示上滑箭头 --- */
-        .swipe-hint {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 24px;
-            height: 24px;
-            border-left: 2px solid var(--primary-gold);
-            border-bottom: 2px solid var(--primary-gold);
-            transform: rotate(-45deg) translateX(-50%);
-            animation: swipeUp 1.5s infinite;
-            z-index: 10;
-        }
-
-        @keyframes swipeUp {
-            0% { transform: rotate(-45deg) translate(0, 0); opacity: 0; }
-            50% { opacity: 1; }
-            100% { transform: rotate(-45deg) translate(-10px, 10px); opacity: 0; }
-        }
-
-        /* --- Page 1: 封面 --- */
-        .cover-logo {
-            width: 80px;
-            height: 80px;
-            border: 2px solid var(--primary-gold);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 40px;
-            font-size: 1.5rem;
-            color: var(--primary-gold);
-        }
-        
-        /* --- Page 2: 数据 (卡片样式) --- */
-        .data-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            width: 90%;
-            z-index: 2;
-        }
-        .data-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: 20px;
-            border-radius: 12px;
-            text-align: center;
-        }
-        .data-num {
-            font-family: 'Playfair Display';
-            font-size: 2rem;
-            color: var(--primary-gold);
-            display: block;
-            margin-bottom: 5px;
-        }
-        .data-label { font-size: 0.8rem; color: #aaa; }
-
-        /* --- Page 3: 里程碑 (时间轴) --- */
-        .timeline {
-            position: relative;
-            width: 80%;
-            border-left: 2px solid rgba(212, 175, 55, 0.3);
-            padding-left: 20px;
-            z-index: 2;
-        }
-        .timeline-item {
-            margin-bottom: 30px;
-            position: relative;
-        }
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: -26px;
-            top: 5px;
-            width: 10px;
-            height: 10px;
-            background: var(--primary-gold);
-            border-radius: 50%;
-            box-shadow: 0 0 10px var(--primary-gold);
-        }
-        .time-date { font-size: 0.9rem; color: var(--primary-gold); }
-        .time-content { font-size: 1.1rem; font-weight: bold; margin-top: 5px; }
-
-        /* --- Page 4: 团队 (照片墙交互) --- */
-        .team-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-            width: 90%;
-            z-index: 2;
-        }
-        .member-card {
-            width: 45%;
-            background: var(--glass-bg);
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-            transition: transform 0.3s;
-        }
-        .member-card:active { transform: scale(0.95); background: rgba(212, 175, 55, 0.2); }
-        .avatar {
-            width: 50px;
-            height: 50px;
-            background: #333;
-            border-radius: 50%;
-            margin: 0 auto 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.8rem;
-        }
-
-        /* --- Page 5: 展望 (关键词) --- */
-        .keyword-cloud {
-            position: relative;
-            height: 300px;
-            width: 100%;
-            z-index: 2;
-        }
-        .keyword {
-            position: absolute;
-            padding: 10px 20px;
-            border: 1px solid var(--primary-gold);
-            border-radius: 30px;
-            color: var(--primary-gold);
-            font-size: 1rem;
-            background: rgba(0,0,0,0.5);
-            /* 随机位置将在JS中微调，这里定大概 */
-        }
-
-        /* --- 动画控制类 (配合 JS) --- */
-        /* 默认隐藏 */
-        .ani-wait { opacity: 0; }
-        
-        /* 音乐图标 */
-        .music-icon {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            width: 30px;
-            height: 30px;
-            z-index: 99;
-            border: 1px solid #fff;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            animation: spin 4s linear infinite;
-        }
-        @keyframes spin { 100% { transform: rotate(360deg); }}
-
     </style>
 </head>
-<body>
+<body class="font-sans bg-light text-dark overflow-x-hidden">
+    <!-- 滚动进度条 -->
+    <div id="scrollIndicator" class="scroll-indicator"></div>
 
-    <!-- 背景音乐图标 (装饰用) -->
-    <div class="music-icon">🎵</div>
-
-    <div class="swiper mySwiper">
-        <div class="swiper-wrapper">
-            
-            <!-- Page 1: 封面 -->
-            <div class="swiper-slide">
-                <div class="bg-circle c1"></div>
-                <div class="bg-circle c2"></div>
-                
-                <div class="cover-logo animate__animated" id="p1-logo">LOGO</div>
-                <div class="h-en animate__animated" id="p1-sub">ANNUAL REPORT</div>
-                <h1 class="animate__animated" id="p1-title">2024<br>年度报告</h1>
-                <p class="animate__animated" id="p1-desc" style="margin-top:20px;">无畏前行 · 共创辉煌</p>
-                
-                <div class="swipe-hint"></div>
+    <!-- 第1页：封面 -->
+    <section class="min-h-screen flex flex-col justify-center items-center p-6 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-primary/10 to-secondary/10 -z-10"></div>
+        <div class="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full filter blur-3xl -mt-32 -mr-32"></div>
+        <div class="absolute bottom-0 left-0 w-64 h-64 bg-secondary/5 rounded-full filter blur-3xl -mb-32 -ml-32"></div>
+        
+        <div class="text-center max-w-lg mx-auto">
+            <h1 class="text-[clamp(2.5rem,8vw,4rem)] font-bold text-dark mb-4 leading-tight tracking-tight">
+                <span class="bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">2025</span>
+                <br>年度总结报告
+            </h1>
+            <p class="text-[clamp(1rem,3vw,1.25rem)] text-gray-600 mb-8">记录成长 · 展望未来</p>
+            <div class="flex justify-center space-x-4">
+                <span class="inline-flex items-center px-4 py-2 rounded-full bg-white shadow-lg">
+                    <i class="fa fa-user mr-2 text-primary"></i>
+                    <span>大学生</span>
+                </span>
+                <span class="inline-flex items-center px-4 py-2 rounded-full bg-white shadow-lg">
+                    <i class="fa fa-calendar mr-2 text-accent"></i>
+                    <span>2025.01-2025.12</span>
+                </span>
             </div>
-
-            <!-- Page 2: 核心数据 -->
-            <div class="swiper-slide">
-                <div class="h-en">KEY ACHIEVEMENTS</div>
-                <h1>逆势增长</h1>
-                <p style="margin-bottom: 30px;">我们在充满挑战的一年中刷新了记录</p>
-                
-                <div class="data-grid">
-                    <div class="data-card ani-wait" data-ani="animate__fadeInUp" data-delay="0.2s">
-                        <span class="data-num" id="count1">0</span>
-                        <span class="data-label">年度营收 (亿)</span>
-                    </div>
-                    <div class="data-card ani-wait" data-ani="animate__fadeInUp" data-delay="0.4s">
-                        <span class="data-num" id="count2">0</span>%
-                        <span class="data-label">同比增长</span>
-                    </div>
-                    <div class="data-card ani-wait" data-ani="animate__fadeInUp" data-delay="0.6s">
-                        <span class="data-num" id="count3">0</span>+
-                        <span class="data-label">新服务客户</span>
-                    </div>
-                    <div class="data-card ani-wait" data-ani="animate__fadeInUp" data-delay="0.8s">
-                        <span class="data-num" id="count4">0</span>
-                        <span class="data-label">全球分部</span>
-                    </div>
-                </div>
-                <div class="swipe-hint"></div>
-            </div>
-
-            <!-- Page 3: 里程碑 -->
-            <div class="swiper-slide">
-                <div class="h-en">MILESTONES</div>
-                <h1>重要时刻</h1>
-                
-                <div class="timeline" style="margin-top: 30px;">
-                    <div class="timeline-item ani-wait" data-ani="animate__fadeInRight" data-delay="0.2s">
-                        <div class="time-date">2024 Q1</div>
-                        <div class="time-content">发布旗舰产品 X-Pro</div>
-                    </div>
-                    <div class="timeline-item ani-wait" data-ani="animate__fadeInRight" data-delay="0.5s">
-                        <div class="time-date">2024 Q2</div>
-                        <div class="time-content">完成 B 轮融资 5000万</div>
-                    </div>
-                    <div class="timeline-item ani-wait" data-ani="animate__fadeInRight" data-delay="0.8s">
-                        <div class="time-date">2024 Q4</div>
-                        <div class="time-content">用户数突破 100 万大关</div>
-                    </div>
-                </div>
-                <div class="swipe-hint"></div>
-            </div>
-
-            <!-- Page 4: 团队文化 -->
-            <div class="swiper-slide">
-                <div class="bg-circle c1" style="right:0; left:auto;"></div>
-                <div class="h-en">OUR TEAM</div>
-                <h1>凝聚力量</h1>
-                <p style="margin-bottom: 30px;">每一位伙伴都是公司最宝贵的资产</p>
-                
-                <div class="team-container">
-                    <div class="member-card ani-wait" data-ani="animate__zoomIn" data-delay="0.1s">
-                        <div class="avatar">研发</div>
-                        <div>技术攻坚</div>
-                    </div>
-                    <div class="member-card ani-wait" data-ani="animate__zoomIn" data-delay="0.3s">
-                        <div class="avatar">市场</div>
-                        <div>开疆拓土</div>
-                    </div>
-                    <div class="member-card ani-wait" data-ani="animate__zoomIn" data-delay="0.5s">
-                        <div class="avatar">运营</div>
-                        <div>用户至上</div>
-                    </div>
-                    <div class="member-card ani-wait" data-ani="animate__zoomIn" data-delay="0.7s">
-                        <div class="avatar">职能</div>
-                        <div>坚实后盾</div>
-                    </div>
-                </div>
-                <p style="font-size:0.8rem; margin-top:20px; opacity:0.6;">(点击卡片致敬)</p>
-                <div class="swipe-hint"></div>
-            </div>
-
-            <!-- Page 5: 未来展望 (交互动画) -->
-            <div class="swiper-slide">
-                <div class="h-en">FUTURE VISION</div>
-                <h1>展望 2025</h1>
-                
-                <div class="keyword-cloud">
-                    <div class="keyword ani-wait" data-ani="animate__fadeIn" data-delay="0.2s" style="top:20%; left:10%;"># 人工智能</div>
-                    <div class="keyword ani-wait" data-ani="animate__fadeIn" data-delay="0.4s" style="top:40%; right:10%;"># 全球化布局</div>
-                    <div class="keyword ani-wait" data-ani="animate__fadeIn" data-delay="0.6s" style="top:60%; left:20%;"># 绿色可持续</div>
-                    <div class="keyword ani-wait" data-ani="animate__fadeIn" data-delay="0.8s" style="top:10%; right:30%;"># 极致体验</div>
-                    <div class="keyword ani-wait" data-ani="animate__fadeIn" data-delay="1.0s" style="top:75%; right:20%;"># 生态共赢</div>
-                </div>
-                <div class="swipe-hint"></div>
-            </div>
-
-            <!-- Page 6: 封底 -->
-            <div class="swiper-slide">
-                <div class="bg-circle c2" style="width: 400px; height: 400px; opacity: 0.1;"></div>
-                <h1 class="animate__animated" id="end-title">THANKS</h1>
-                <p style="margin-top:10px;">感谢您的观看与支持</p>
-                
-                <div style="margin-top: 50px; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 20px; text-align: center;">
-                    <p style="font-size: 0.8rem;">长按识别二维码关注我们</p>
-                    <div style="width: 100px; height: 100px; background: white; margin: 10px auto; display:flex; align-items:center; justify-content:center; color:#000;">
-                        QR CODE
-                    </div>
-                </div>
-
-                <button onclick="swiper.slideTo(0)" style="margin-top: 30px; padding: 10px 30px; background: transparent; border: 1px solid var(--primary-gold); color: var(--primary-gold); border-radius: 20px; cursor: pointer;">
-                    再次观看
-                </button>
-            </div>
-
         </div>
-    </div>
+        
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <i class="fa fa-angle-down text-2xl text-gray-500"></i>
+        </div>
+    </section>
 
-    <!-- 引入 Swiper JS -->
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <!-- 第2页：年度概览 -->
+    <section class="min-h-screen flex flex-col justify-center p-6 bg-white">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-[clamp(1.8rem,5vw,2.5rem)] font-bold mb-12 text-center">
+                <span class="inline-block border-b-4 border-primary pb-2">年度概览</span>
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- 学习 -->
+                <div class="bg-light rounded-2xl p-6 shadow-sm hover:shadow-lg transition-custom transform hover:-translate-y-1">
+                    <div class="w-16 h-16 bg-primary/10 rounded-xl flex items-center justify-center mb-4">
+                        <i class="fa fa-book text-2xl text-primary"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">学习成绩</h3>
+                    <p class="text-gray-600 mb-2">GPA: 3.8/4.0</p>
+                    <div class="w-full bg-gray-200 rounded-full h-2.5">
+                        <div class="bg-primary h-2.5 rounded-full" style="width: 95%"></div>
+                    </div>
+                </div>
+                
+                <!-- 技能 -->
+                <div class="bg-light rounded-2xl p-6 shadow-sm hover:shadow-lg transition-custom transform hover:-translate-y-1">
+                    <div class="w-16 h-16 bg-secondary/10 rounded-xl flex items-center justify-center mb-4">
+                        <i class="fa fa-code text-2xl text-secondary"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">技能提升</h3>
+                    <p class="text-gray-600 mb-2">掌握3项新技能</p>
+                    <div class="flex space-x-2 text-accent">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star-half-o"></i>
+                        <i class="fa fa-star-o"></i>
+                    </div>
+                </div>
+                
+                <!-- 实践 -->
+                <div class="bg-light rounded-2xl p-6 shadow-sm hover:shadow-lg transition-custom transform hover:-translate-y-1">
+                    <div class="w-16 h-16 bg-accent/10 rounded-xl flex items-center justify-center mb-4">
+                        <i class="fa fa-briefcase text-2xl text-accent"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">实践经历</h3>
+                    <p class="text-gray-600 mb-2">2次实习 · 3个项目</p>
+                    <div class="w-full bg-gray-200 rounded-full h-2.5">
+                        <div class="bg-accent h-2.5 rounded-full" style="width: 85%"></div>
+                    </div>
+                </div>
+                
+                <!-- 社交 -->
+                <div class="bg-light rounded-2xl p-6 shadow-sm hover:shadow-lg transition-custom transform hover:-translate-y-1">
+                    <div class="w-16 h-16 bg-purple-100 rounded-xl flex items-center justify-center mb-4">
+                        <i class="fa fa-users text-2xl text-purple-500"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">社交拓展</h3>
+                    <p class="text-gray-600 mb-2">结识50+新朋友</p>
+                    <div class="flex space-x-2 text-purple-500">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star-o"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 第3页：学习成长 -->
+    <section class="min-h-screen flex flex-col justify-center p-6 bg-gradient-to-br from-light to-white">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-[clamp(1.8rem,5vw,2.5rem)] font-bold mb-12 text-center">
+                <span class="inline-block border-b-4 border-secondary pb-2">学习成长</span>
+            </h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- 成绩图表 -->
+                <div class="bg-white rounded-2xl p-6 shadow-lg">
+                    <h3 class="text-xl font-semibold mb-4">学期成绩变化</h3>
+                    <div class="h-64">
+                        <canvas id="gradesChart"></canvas>
+                    </div>
+                </div>
+                
+                <!-- 课程与证书 -->
+                <div class="bg-white rounded-2xl p-6 shadow-lg">
+                    <h3 class="text-xl font-semibold mb-4">完成课程与证书</h3>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mr-4">
+                                <i class="fa fa-check text-primary"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium">Web开发进阶</h4>
+                                <p class="text-sm text-gray-500">完成时间：2025.03</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mr-4">
+                                <i class="fa fa-check text-primary"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium">数据分析与可视化</h4>
+                                <p class="text-sm text-gray-500">完成时间：2025.06</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mr-4">
+                                <i class="fa fa-check text-primary"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium">机器学习基础</h4>
+                                <p class="text-sm text-gray-500">完成时间：2025.09</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center mr-4">
+                                <i class="fa fa-certificate text-accent"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium">AWS认证云从业者</h4>
+                                <p class="text-sm text-gray-500">获取时间：2025.11</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 第4页：实践经历 -->
+    <section class="min-h-screen flex flex-col justify-center p-6 bg-white">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-[clamp(1.8rem,5vw,2.5rem)] font-bold mb-12 text-center">
+                <span class="inline-block border-b-4 border-accent pb-2">实践经历</span>
+            </h2>
+            
+            <!-- 时间线 -->
+            <div class="relative">
+                <!-- 时间线轴线 -->
+                <div class="absolute h-full w-1 bg-gray-200 left-4 md:left-1/2 transform md:-translate-x-1/2"></div>
+                
+                <!-- 实习1 -->
+                <div class="relative pl-12 md:pl-0 md:flex mb-12">
+                    <div class="absolute left-0 md:left-1/2 transform md:-translate-x-1/2 w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white">
+                        <i class="fa fa-briefcase"></i>
+                    </div>
+                    
+                    <div class="md:w-1/2 md:pr-12 md:text-right">
+                        <h3 class="text-xl font-semibold mb-1">前端开发实习生</h3>
+                        <p class="text-gray-600 mb-2">ABC科技有限公司 | 2025.07-2025.09</p>
+                    </div>
+                    
+                    <div class="hidden md:block md:w-1/2 md:pl-12">
+                        <p class="text-gray-600">参与公司官网重构，负责前端页面开发与优化，使用React和Tailwind CSS实现响应式布局，提升页面加载速度30%。</p>
+                    </div>
+                    
+                    <div class="md:hidden mt-2">
+                        <p class="text-gray-600">参与公司官网重构，负责前端页面开发与优化，使用React和Tailwind CSS实现响应式布局，提升页面加载速度30%。</p>
+                    </div>
+                </div>
+                
+                <!-- 实习2 -->
+                <div class="relative pl-12 md:pl-0 md:flex mb-12">
+                    <div class="absolute left-0 md:left-1/2 transform md:-translate-x-1/2 w-8 h-8 bg-secondary rounded-full flex items-center justify-center text-white">
+                        <i class="fa fa-briefcase"></i>
+                    </div>
+                    
+                    <div class="md:w-1/2 md:pr-12 md:text-right order-1 md:order-1">
+                        <h3 class="text-xl font-semibold mb-1">产品经理实习生</h3>
+                        <p class="text-gray-600 mb-2">XYZ互联网公司 | 2025.10-2025.12</p>
+                    </div>
+                    
+                    <div class="hidden md:block md:w-1/2 md:pl-12 order-2">
+                        <p class="text-gray-600">负责用户需求调研与分析，参与产品原型设计，协助团队完成2个功能模块的上线，提升用户活跃度15%。</p>
+                    </div>
+                    
+                    <div class="md:hidden mt-2 order-2">
+                        <p class="text-gray-600">负责用户需求调研与分析，参与产品原型设计，协助团队完成2个功能模块的上线，提升用户活跃度15%。</p>
+                    </div>
+                </div>
+                
+                <!-- 项目 -->
+                <div class="relative pl-12 md:pl-0 md:flex">
+                    <div class="absolute left-0 md:left-1/2 transform md:-translate-x-1/2 w-8 h-8 bg-accent rounded-full flex items-center justify-center text-white">
+                        <i class="fa fa-code"></i>
+                    </div>
+                    
+                    <div class="md:w-1/2 md:pr-12 md:text-right">
+                        <h3 class="text-xl font-semibold mb-1">校园二手交易平台</h3>
+                        <p class="text-gray-600 mb-2">个人项目 | 2025.03-2025.06</p>
+                    </div>
+                    
+                    <div class="hidden md:block md:w-1/2 md:pl-12">
+                        <p class="text-gray-600">独立设计并开发的全栈项目，使用Node.js+Express构建后端，Vue.js构建前端，实现用户注册、商品发布、交易撮合等功能，获得校级创新创业大赛三等奖。</p>
+                    </div>
+                    
+                    <div class="md:hidden mt-2">
+                        <p class="text-gray-600">独立设计并开发的全栈项目，使用Node.js+Express构建后端，Vue.js构建前端，实现用户注册、商品发布、交易撮合等功能，获得校级创新创业大赛三等奖。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 第5页：技能提升 -->
+    <section class="min-h-screen flex flex-col justify-center p-6 bg-gradient-to-br from-dark to-dark/90 text-white">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-[clamp(1.8rem,5vw,2.5rem)] font-bold mb-12 text-center">
+                <span class="inline-block border-b-4 border-secondary pb-2">技能提升</span>
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- 技能雷达图 -->
+                <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6">
+                    <h3 class="text-xl font-semibold mb-4">技能雷达图</h3>
+                    <div class="h-64">
+                        <canvas id="skillsRadar"></canvas>
+                    </div>
+                </div>
+                
+                <!-- 技能详情 -->
+                <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6">
+                    <h3 class="text-xl font-semibold mb-6">年度新技能</h3>
+                    
+                    <div class="space-y-6">
+                        <!-- 技能1 -->
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <h4 class="font-medium">UI/UX设计</h4>
+                                <span class="text-secondary">85%</span>
+                            </div>
+                            <div class="w-full bg-white/20 rounded-full h-2">
+                                <div class="bg-secondary h-2 rounded-full" style="width: 85%"></div>
+                            </div>
+                            <p class="text-sm text-white/70 mt-2">学习Figma和Adobe XD，完成5个设计项目</p>
+                        </div>
+                        
+                        <!-- 技能2 -->
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <h4 class="font-medium">数据分析</h4>
+                                <span class="text-primary">75%</span>
+                            </div>
+                            <div class="w-full bg-white/20 rounded-full h-2">
+                                <div class="bg-primary h-2 rounded-full" style="width: 75%"></div>
+                            </div>
+                            <p class="text-sm text-white/70 mt-2">掌握Python数据分析库，完成3个数据分析案例</p>
+                        </div>
+                        
+                        <!-- 技能3 -->
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <h4 class="font-medium">移动应用开发</h4>
+                                <span class="text-accent">65%</span>
+                            </div>
+                            <div class="w-full bg-white/20 rounded-full h-2">
+                                <div class="bg-accent h-2 rounded-full" style="width: 65%"></div>
+                            </div>
+                            <p class="text-sm text-white/70 mt-2">学习Flutter框架，开发1个跨平台应用</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 第6页：社交与生活 -->
+    <section class="min-h-screen flex flex-col justify-center p-6 bg-white">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-[clamp(1.8rem,5vw,2.5rem)] font-bold mb-12 text-center">
+                <span class="inline-block border-b-4 border-purple-500 pb-2">社交与生活</span>
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- 社交图表 -->
+                <div class="bg-light rounded-2xl p-6 shadow-lg">
+                    <h3 class="text-xl font-semibold mb-4">社交圈分布</h3>
+                    <div class="h-64">
+                        <canvas id="socialChart"></canvas>
+                    </div>
+                </div>
+                
+                <!-- 生活点滴 -->
+                <div class="bg-light rounded-2xl p-6 shadow-lg">
+                    <h3 class="text-xl font-semibold mb-4">生活点滴</h3>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-custom cursor-pointer">
+                            <div class="w-full h-32 bg-primary/10 rounded-lg mb-3 flex items-center justify-center">
+                                <i class="fa fa-book text-3xl text-primary"></i>
+                            </div>
+                            <h4 class="font-medium">阅读</h4>
+                            <p class="text-sm text-gray-500">完成12本书</p>
+                        </div>
+                        
+                        <div class="bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-custom cursor-pointer">
+                            <div class="w-full h-32 bg-secondary/10 rounded-lg mb-3 flex items-center justify-center">
+                                <i class="fa fa-cutlery text-3xl text-secondary"></i>
+                            </div>
+                            <h4 class="font-medium">美食</h4>
+                            <p class="text-sm text-gray-500">尝试20家新餐厅</p>
+                        </div>
+                        
+                        <div class="bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-custom cursor-pointer">
+                            <div class="w-full h-32 bg-accent/10 rounded-lg mb-3 flex items-center justify-center">
+                                <i class="fa fa-plane text-3xl text-accent"></i>
+                            </div>
+                            <h4 class="font-medium">旅行</h4>
+                            <p class="text-sm text-gray-500">3次短途旅行</p>
+                        </div>
+                        
+                        <div class="bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-custom cursor-pointer">
+                            <div class="w-full h-32 bg-purple-100 rounded-lg mb-3 flex items-center justify-center">
+                                <i class="fa fa-heart text-3xl text-purple-500"></i>
+                            </div>
+                            <h4 class="font-medium">健身</h4>
+                            <p class="text-sm text-gray-500">坚持每周3次</p>
+                        </div>
+                    </div>
+                    
+                    <!-- 朋友动态 -->
+                    <div class="mt-6">
+                        <h4 class="font-medium mb-3">朋友动态</h4>
+                        <div class="bg-white rounded-xl p-4 shadow-sm">
+                            <div class="flex items-center mb-3">
+                                <img src="https://picsum.photos/id/64/40/40" alt="朋友头像" class="w-10 h-10 rounded-full mr-3">
+                                <div>
+                                    <h5 class="font-medium">李明</h5>
+                                    <p class="text-xs text-gray-500">2小时前</p>
+                                </div>
+                            </div>
+                            <p class="text-sm">恭喜完成AWS认证！一起加油，未来可期！</p>
+                            <div class="flex mt-3 space-x-4 text-gray-400">
+                                <button class="flex items-center text-sm hover:text-primary transition-custom">
+                                    <i class="fa fa-thumbs-o-up mr-1"></i> 点赞
+                                </button>
+                                <button class="flex items-center text-sm hover:text-primary transition-custom">
+                                    <i class="fa fa-comment-o mr-1"></i> 评论
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 第7页：反思与展望 -->
+    <section class="min-h-screen flex flex-col justify-center p-6 bg-light">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-[clamp(1.8rem,5vw,2.5rem)] font-bold mb-12 text-center">
+                <span class="inline-block border-b-4 border-primary pb-2">反思与展望</span>
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- 反思 -->
+                <div class="bg-white rounded-2xl p-6 shadow-lg">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mr-4">
+                            <i class="fa fa-refresh text-red-500"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold">年度反思</h3>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="flex">
+                            <div class="mr-4 mt-1">
+                                <i class="fa fa-exclamation-circle text-red-500"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium mb-1">时间管理</h4>
+                                <p class="text-gray-600 text-sm">部分项目时间规划不合理，导致最后阶段压力较大</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex">
+                            <div class="mr-4 mt-1">
+                                <i class="fa fa-exclamation-circle text-red-500"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium mb-1">深度学习</h4>
+                                <p class="text-gray-600 text-sm">技能学习面较广，但部分领域深度不足</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex">
+                            <div class="mr-4 mt-1">
+                                <i class="fa fa-exclamation-circle text-red-500"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium mb-1">社交平衡</h4>
+                                <p class="text-gray-600 text-sm">过于专注学业，社交活动参与度有待提高</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 展望 -->
+                <div class="bg-white rounded-2xl p-6 shadow-lg">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mr-4">
+                            <i class="fa fa-lightbulb-o text-green-500"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold">2026展望</h3>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="flex">
+                            <div class="mr-4 mt-1">
+                                <i class="fa fa-check-circle text-green-500"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium mb-1">专业深化</h4>
+                                <p class="text-gray-600 text-sm">专注人工智能领域，完成2个相关项目</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex">
+                            <div class="mr-4 mt-1">
+                                <i class="fa fa-check-circle text-green-500"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium mb-1">实习计划</h4>
+                                <p class="text-gray-600 text-sm">争取在头部科技公司获得实习机会</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex">
+                            <div class="mr-4 mt-1">
+                                <i class="fa fa-check-circle text-green-500"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium mb-1">个人项目</h4>
+                                <p class="text-gray-600 text-sm">开发一个有实际应用价值的移动应用</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex">
+                            <div class="mr-4 mt-1">
+                                <i class="fa fa-check-circle text-green-500"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium mb-1">健康生活</h4>
+                                <p class="text-gray-600 text-sm">坚持每周运动，保持良好作息</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 第8页：结语 -->
+    <section class="min-h-screen flex flex-col justify-center items-center p-6 bg-gradient-to-br from-primary/90 to-secondary/90 text-white text-center">
+        <div class="max-w-2xl mx-auto">
+            <div class="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center mb-8">
+                <i class="fa fa-flag-checkered text-4xl"></i>
+            </div>
+            
+            <h2 class="text-[clamp(2rem,6vw,3rem)] font-bold mb-6">年度总结</h2>
+            
+            <p class="text-lg mb-8 leading-relaxed">
+                2025年是成长与收获的一年，在学习、实践和个人发展方面都取得了不错的成绩。感谢身边的老师、同学和朋友的支持与帮助。
+                <br><br>
+                2026年，我将继续保持初心，勇于挑战，不断突破自我，为实现自己的目标而努力奋斗！
+            </p>
+            
+            <div class="inline-flex items-center justify-center px-6 py-3 bg-white text-primary font-semibold rounded-full shadow-lg hover:shadow-xl transition-custom transform hover:-translate-y-1">
+                <i class="fa fa-arrow-right mr-2"></i>
+                开启新征程
+            </div>
+            
+            <div class="mt-12 text-white/70 text-sm">
+                <p>© 2026 大学生年度总结报告</p>
+            </div>
+        </div>
+    </section>
+
     <script>
-        // 1. 初始化 Swiper
-        var swiper = new Swiper(".mySwiper", {
-            direction: "vertical",
-            speed: 600,
-            mousewheel: true,
-            on: {
-                init: function () {
-                    playAnimation(this.slides[this.activeIndex]);
-                },
-                slideChangeTransitionEnd: function () {
-                    playAnimation(this.slides[this.activeIndex]);
-                },
-                slideChangeTransitionStart: function() {
-                    // 滑走时重置动画状态，以便下次滑回来时重新播放
-                    resetAnimation(this.slides[this.previousIndex]);
-                }
-            },
+        // 滚动进度条
+        window.addEventListener('scroll', function() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById("scrollIndicator").style.width = scrolled + "%";
         });
 
-        // 2. 动画播放逻辑
-        function playAnimation(slide) {
-            // 处理通用入场动画
-            const animatables = slide.querySelectorAll('.ani-wait');
-            animatables.forEach(el => {
-                el.style.visibility = 'visible';
-                el.classList.remove('ani-wait');
-                const aniName = el.getAttribute('data-ani');
-                const delay = el.getAttribute('data-delay') || '0s';
-                el.style.animationDelay = delay;
-                el.classList.add('animate__animated', aniName);
-            });
-
-            // 处理封面特定动画
-            if(slide.querySelector('#p1-title')) {
-                slide.querySelector('#p1-logo').classList.add('animate__fadeInDown');
-                slide.querySelector('#p1-title').classList.add('animate__zoomIn');
-                slide.querySelector('#p1-sub').classList.add('animate__fadeInUp');
+        // 学习成绩图表
+        const gradesCtx = document.getElementById('gradesChart').getContext('2d');
+        new Chart(gradesCtx, {
+            type: 'line',
+            data: {
+                labels: ['第一学期', '第二学期', '第三学期', '第四学期'],
+                datasets: [{
+                    label: 'GPA',
+                    data: [3.6, 3.7, 3.8, 3.9],
+                    backgroundColor: 'rgba(22, 93, 255, 0.1)',
+                    borderColor: 'rgba(22, 93, 255, 1)',
+                    borderWidth: 2,
+                    tension: 0.3,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        min: 3.0,
+                        max: 4.0
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
             }
+        });
+
+        // 技能雷达图
+        const skillsCtx = document.getElementById('skillsRadar').getContext('2d');
+        new Chart(skillsCtx, {
+            type: 'radar',
+            data: {
+                labels: ['编程', '设计', '数据分析', '项目管理', '沟通协作'],
+                datasets: [{
+                    label: '当前水平',
+                    data: [85, 75, 65, 70, 80],
+                    backgroundColor: 'rgba(54, 207, 201, 0.2)',
+                    borderColor: 'rgba(54, 207, 201, 1)',
+                    pointBackgroundColor: 'rgba(54, 207, 201, 1)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgba(54, 207, 201, 1)'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        angleLines: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        },
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        },
+                        pointLabels: {
+                            color: 'rgba(255, 255, 255, 0.7)'
+                        },
+                        ticks: {
+                            backdropColor: 'transparent',
+                            color: 'rgba(255, 255, 255, 0.7)'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: 'rgba(255, 255, 255, 0.7)'
+                        }
+                    }
+                }
+            }
+        });
+
+        // 社交圈图表
+        const socialCtx = document.getElementById('socialChart').getContext('2d');
+        new Chart(socialCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['同学', '老师', '实习同事', '朋友', '其他'],
+                datasets: [{
+                    data: [40, 15, 20, 20, 5],
+                    backgroundColor: [
+                        'rgba(22, 93, 255, 0.7)',
+                        'rgba(54, 207, 201, 0.7)',
+                        'rgba(255, 125, 0, 0.7)',
+                        'rgba(139, 92, 246, 0.7)',
+                        'rgba(107, 114, 128, 0.7)'
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+
+        // 添加页面切换动画
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('section');
             
-            // 处理封底特定动画
-            if(slide.querySelector('#end-title')) {
-                slide.querySelector('#end-title').classList.add('animate__heartBeat');
-            }
-
-            // 处理数字增长动画 (Page 2)
-            if(slide.querySelector('#count1')) {
-                animateValue("count1", 0, 12.8, 1500);
-                animateValue("count2", 0, 35, 1500);
-                animateValue("count3", 0, 500, 1500);
-                animateValue("count4", 0, 12, 1500);
-            }
-        }
-
-        // 3. 动画重置逻辑 (让H5每次滑回来都能动)
-        function resetAnimation(slide) {
-            const animatedElements = slide.querySelectorAll('.animate__animated');
-            animatedElements.forEach(el => {
-                // 移除 animate.css 的类
-                const classes = el.className.split(" ").filter(c => !c.startsWith('animate__'));
-                el.className = classes.join(" ");
-                
-                // 如果是通用动画元素，加回 ani-wait
-                if(el.hasAttribute('data-ani')) {
-                    el.classList.add('ani-wait');
-                    el.style.visibility = 'hidden';
-                    el.style.animationDelay = '0s';
-                }
-            });
-        }
-
-        // 4. 数字增长函数
-        function animateValue(id, start, end, duration) {
-            const obj = document.getElementById(id);
-            if(!obj) return;
-            let startTimestamp = null;
-            const step = (timestamp) => {
-                if (!startTimestamp) startTimestamp = timestamp;
-                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-                // 判断是否有小数
-                let isFloat = end % 1 !== 0;
-                let val = progress * (end - start) + start;
-                obj.innerHTML = isFloat ? val.toFixed(1) : Math.floor(val);
-                if (progress < 1) {
-                    window.requestAnimationFrame(step);
-                } else {
-                     obj.innerHTML = end; // 确保最终值准确
-                }
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.3
             };
-            window.requestAnimationFrame(step);
-        }
+            
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('opacity-100', 'translate-y-0');
+                        entry.target.classList.remove('opacity-0', 'translate-y-10');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+            
+            sections.forEach(section => {
+                section.classList.add('opacity-0', 'translate-y-10', 'transition-custom');
+                observer.observe(section);
+            });
+        });
     </script>
 </body>
 </html>
