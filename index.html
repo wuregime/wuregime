@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>2024 公司年度报告</title>
+    <!-- 引入 Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <!-- 引入 Animate.css 用于入场动画 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <!-- 引入 Google Fonts 增加高级感 -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- 全局基础设置 --- */
+        :root {
+            --primary-gold: #d4af37;
+            --secondary-gold: #f3e5ab;
+            --bg-color: #090c10;
+            --text-white: #f0f0f0;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body, html {
+            height: 100%;
+            background-color: var(--bg-color);
+            font-family: 'Noto Serif SC', serif; /* 中文衬线体 */
+            color: var(--text-white);
+            overflow: hidden;
+        }
+
+        /* --- Swiper 容器设置 --- */
+        .swiper {
+            width: 100%;
+            height: 100%;
+        }
+
+        .swiper-slide {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            background: radial-gradient(circle at center, #1a202c 0%, #000000 100%);
+        }
+
+        /* --- 装饰元素 --- */
+        .bg-circle {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.3;
+            z-index: 0;
+        }
+        .c1 { width: 300px; height: 300px; background: var(--primary-gold); top: -50px; left: -50px; }
+        .c2 { width: 200px; height: 200px; background: #4a90e2; bottom: -50px; right: -50px; }
+
+        /* --- 通用文本样式 --- */
+        .h-en {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            color: var(--primary-gold);
+            opacity: 0.6;
+            font-size: 1rem;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--secondary-gold), var(--primary-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            z-index: 1;
+            text-align: center;
+        }
+
+        p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #ccc;
+            max-width: 80%;
+            text-align: center;
+            z-index: 1;
+        }
+
+        /* --- 提示上滑箭头 --- */
+        .swipe-hint {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 24px;
+            height: 24px;
+            border-left: 2px solid var(--primary-gold);
+            border-bottom: 2px solid var(--primary-gold);
+            transform: rotate(-45deg) translateX(-50%);
+            animation: swipeUp 1.5s infinite;
+            z-index: 10;
+        }
+
+        @keyframes swipeUp {
+            0% { transform: rotate(-45deg) translate(0, 0); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: rotate(-45deg) translate(-10px, 10px); opacity: 0; }
+        }
+
+        /* --- Page 1: 封面 --- */
+        .cover-logo {
+            width: 80px;
+            height: 80px;
+            border: 2px solid var(--primary-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 40px;
+            font-size: 1.5rem;
+            color: var(--primary-gold);
+        }
+        
+        /* --- Page 2: 数据 (卡片样式) --- */
+        .data-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            width: 90%;
+            z-index: 2;
+        }
+        .data-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        .data-num {
+            font-family: 'Playfair Display';
+            font-size: 2rem;
+            color: var(--primary-gold);
+            display: block;
+            margin-bottom: 5px;
+        }
+        .data-label { font-size: 0.8rem; color: #aaa; }
+
+        /* --- Page 3: 里程碑 (时间轴) --- */
+        .timeline {
+            position: relative;
+            width: 80%;
+            border-left: 2px solid rgba(212, 175, 55, 0.3);
+            padding-left: 20px;
+            z-index: 2;
+        }
+        .timeline-item {
+            margin-bottom: 30px;
+            position: relative;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -26px;
+            top: 5px;
+            width: 10px;
+            height: 10px;
+            background: var(--primary-gold);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--primary-gold);
+        }
+        .time-date { font-size: 0.9rem; color: var(--primary-gold); }
+        .time-content { font-size: 1.1rem; font-weight: bold; margin-top: 5px; }
+
+        /* --- Page 4: 团队 (照片墙交互) --- */
+        .team-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            width: 90%;
+            z-index: 2;
+        }
+        .member-card {
+            width: 45%;
+            background: var(--glass-bg);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        .member-card:active { transform: scale(0.95); background: rgba(212, 175, 55, 0.2); }
+        .avatar {
+            width: 50px;
+            height: 50px;
+            background: #333;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+
+        /* --- Page 5: 展望 (关键词) --- */
+        .keyword-cloud {
+            position: relative;
+            height: 300px;
+            width: 100%;
+            z-index: 2;
+        }
+        .keyword {
+            position: absolute;
+            padding: 10px 20px;
+            border: 1px solid var(--primary-gold);
+            border-radius: 30px;
+            color: var(--primary-gold);
+            font-size: 1rem;
+            background: rgba(0,0,0,0.5);
+            /* 随机位置将在JS中微调，这里定大概 */
+        }
+
+        /* --- 动画控制类 (配合 JS) --- */
+        /* 默认隐藏 */
+        .ani-wait { opacity: 0; }
+        
+        /* 音乐图标 */
+        .music-icon {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 30px;
+            height: 30px;
+            z-index: 99;
+            border: 1px solid #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: spin 4s linear infinite;
+        }
+        @keyframes spin { 100% { transform: rotate(360deg); }}
+
+    </style>
+</head>
+<body>
+
+    <!-- 背景音乐图标 (装饰用) -->
+    <div class="music-icon">🎵</div>
+
+    <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
+            
+            <!-- Page 1: 封面 -->
+            <div class="swiper-slide">
+                <div class="bg-circle c1"></div>
+                <div class="bg-circle c2"></div>
+                
+                <div class="cover-logo animate__animated" id="p1-logo">LOGO</div>
+                <div class="h-en animate__animated" id="p1-sub">ANNUAL REPORT</div>
+                <h1 class="animate__animated" id="p1-title">2024<br>年度报告</h1>
+                <p class="animate__animated" id="p1-desc" style="margin-top:20px;">无畏前行 · 共创辉煌</p>
+                
+                <div class="swipe-hint"></div>
+            </div>
+
+            <!-- Page 2: 核心数据 -->
+            <div class="swiper-slide">
+                <div class="h-en">KEY ACHIEVEMENTS</div>
+                <h1>逆势增长</h1>
+                <p style="margin-bottom: 30px;">我们在充满挑战的一年中刷新了记录</p>
+                
+                <div class="data-grid">
+                    <div class="data-card ani-wait" data-ani="animate__fadeInUp" data-delay="0.2s">
+                        <span class="data-num" id="count1">0</span>
+                        <span class="data-label">年度营收 (亿)</span>
+                    </div>
+                    <div class="data-card ani-wait" data-ani="animate__fadeInUp" data-delay="0.4s">
+                        <span class="data-num" id="count2">0</span>%
+                        <span class="data-label">同比增长</span>
+                    </div>
+                    <div class="data-card ani-wait" data-ani="animate__fadeInUp" data-delay="0.6s">
+                        <span class="data-num" id="count3">0</span>+
+                        <span class="data-label">新服务客户</span>
+                    </div>
+                    <div class="data-card ani-wait" data-ani="animate__fadeInUp" data-delay="0.8s">
+                        <span class="data-num" id="count4">0</span>
+                        <span class="data-label">全球分部</span>
+                    </div>
+                </div>
+                <div class="swipe-hint"></div>
+            </div>
+
+            <!-- Page 3: 里程碑 -->
+            <div class="swiper-slide">
+                <div class="h-en">MILESTONES</div>
+                <h1>重要时刻</h1>
+                
+                <div class="timeline" style="margin-top: 30px;">
+                    <div class="timeline-item ani-wait" data-ani="animate__fadeInRight" data-delay="0.2s">
+                        <div class="time-date">2024 Q1</div>
+                        <div class="time-content">发布旗舰产品 X-Pro</div>
+                    </div>
+                    <div class="timeline-item ani-wait" data-ani="animate__fadeInRight" data-delay="0.5s">
+                        <div class="time-date">2024 Q2</div>
+                        <div class="time-content">完成 B 轮融资 5000万</div>
+                    </div>
+                    <div class="timeline-item ani-wait" data-ani="animate__fadeInRight" data-delay="0.8s">
+                        <div class="time-date">2024 Q4</div>
+                        <div class="time-content">用户数突破 100 万大关</div>
+                    </div>
+                </div>
+                <div class="swipe-hint"></div>
+            </div>
+
+            <!-- Page 4: 团队文化 -->
+            <div class="swiper-slide">
+                <div class="bg-circle c1" style="right:0; left:auto;"></div>
+                <div class="h-en">OUR TEAM</div>
+                <h1>凝聚力量</h1>
+                <p style="margin-bottom: 30px;">每一位伙伴都是公司最宝贵的资产</p>
+                
+                <div class="team-container">
+                    <div class="member-card ani-wait" data-ani="animate__zoomIn" data-delay="0.1s">
+                        <div class="avatar">研发</div>
+                        <div>技术攻坚</div>
+                    </div>
+                    <div class="member-card ani-wait" data-ani="animate__zoomIn" data-delay="0.3s">
+                        <div class="avatar">市场</div>
+                        <div>开疆拓土</div>
+                    </div>
+                    <div class="member-card ani-wait" data-ani="animate__zoomIn" data-delay="0.5s">
+                        <div class="avatar">运营</div>
+                        <div>用户至上</div>
+                    </div>
+                    <div class="member-card ani-wait" data-ani="animate__zoomIn" data-delay="0.7s">
+                        <div class="avatar">职能</div>
+                        <div>坚实后盾</div>
+                    </div>
+                </div>
+                <p style="font-size:0.8rem; margin-top:20px; opacity:0.6;">(点击卡片致敬)</p>
+                <div class="swipe-hint"></div>
+            </div>
+
+            <!-- Page 5: 未来展望 (交互动画) -->
+            <div class="swiper-slide">
+                <div class="h-en">FUTURE VISION</div>
+                <h1>展望 2025</h1>
+                
+                <div class="keyword-cloud">
+                    <div class="keyword ani-wait" data-ani="animate__fadeIn" data-delay="0.2s" style="top:20%; left:10%;"># 人工智能</div>
+                    <div class="keyword ani-wait" data-ani="animate__fadeIn" data-delay="0.4s" style="top:40%; right:10%;"># 全球化布局</div>
+                    <div class="keyword ani-wait" data-ani="animate__fadeIn" data-delay="0.6s" style="top:60%; left:20%;"># 绿色可持续</div>
+                    <div class="keyword ani-wait" data-ani="animate__fadeIn" data-delay="0.8s" style="top:10%; right:30%;"># 极致体验</div>
+                    <div class="keyword ani-wait" data-ani="animate__fadeIn" data-delay="1.0s" style="top:75%; right:20%;"># 生态共赢</div>
+                </div>
+                <div class="swipe-hint"></div>
+            </div>
+
+            <!-- Page 6: 封底 -->
+            <div class="swiper-slide">
+                <div class="bg-circle c2" style="width: 400px; height: 400px; opacity: 0.1;"></div>
+                <h1 class="animate__animated" id="end-title">THANKS</h1>
+                <p style="margin-top:10px;">感谢您的观看与支持</p>
+                
+                <div style="margin-top: 50px; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 20px; text-align: center;">
+                    <p style="font-size: 0.8rem;">长按识别二维码关注我们</p>
+                    <div style="width: 100px; height: 100px; background: white; margin: 10px auto; display:flex; align-items:center; justify-content:center; color:#000;">
+                        QR CODE
+                    </div>
+                </div>
+
+                <button onclick="swiper.slideTo(0)" style="margin-top: 30px; padding: 10px 30px; background: transparent; border: 1px solid var(--primary-gold); color: var(--primary-gold); border-radius: 20px; cursor: pointer;">
+                    再次观看
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- 引入 Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        // 1. 初始化 Swiper
+        var swiper = new Swiper(".mySwiper", {
+            direction: "vertical",
+            speed: 600,
+            mousewheel: true,
+            on: {
+                init: function () {
+                    playAnimation(this.slides[this.activeIndex]);
+                },
+                slideChangeTransitionEnd: function () {
+                    playAnimation(this.slides[this.activeIndex]);
+                },
+                slideChangeTransitionStart: function() {
+                    // 滑走时重置动画状态，以便下次滑回来时重新播放
+                    resetAnimation(this.slides[this.previousIndex]);
+                }
+            },
+        });
+
+        // 2. 动画播放逻辑
+        function playAnimation(slide) {
+            // 处理通用入场动画
+            const animatables = slide.querySelectorAll('.ani-wait');
+            animatables.forEach(el => {
+                el.style.visibility = 'visible';
+                el.classList.remove('ani-wait');
+                const aniName = el.getAttribute('data-ani');
+                const delay = el.getAttribute('data-delay') || '0s';
+                el.style.animationDelay = delay;
+                el.classList.add('animate__animated', aniName);
+            });
+
+            // 处理封面特定动画
+            if(slide.querySelector('#p1-title')) {
+                slide.querySelector('#p1-logo').classList.add('animate__fadeInDown');
+                slide.querySelector('#p1-title').classList.add('animate__zoomIn');
+                slide.querySelector('#p1-sub').classList.add('animate__fadeInUp');
+            }
+            
+            // 处理封底特定动画
+            if(slide.querySelector('#end-title')) {
+                slide.querySelector('#end-title').classList.add('animate__heartBeat');
+            }
+
+            // 处理数字增长动画 (Page 2)
+            if(slide.querySelector('#count1')) {
+                animateValue("count1", 0, 12.8, 1500);
+                animateValue("count2", 0, 35, 1500);
+                animateValue("count3", 0, 500, 1500);
+                animateValue("count4", 0, 12, 1500);
+            }
+        }
+
+        // 3. 动画重置逻辑 (让H5每次滑回来都能动)
+        function resetAnimation(slide) {
+            const animatedElements = slide.querySelectorAll('.animate__animated');
+            animatedElements.forEach(el => {
+                // 移除 animate.css 的类
+                const classes = el.className.split(" ").filter(c => !c.startsWith('animate__'));
+                el.className = classes.join(" ");
+                
+                // 如果是通用动画元素，加回 ani-wait
+                if(el.hasAttribute('data-ani')) {
+                    el.classList.add('ani-wait');
+                    el.style.visibility = 'hidden';
+                    el.style.animationDelay = '0s';
+                }
+            });
+        }
+
+        // 4. 数字增长函数
+        function animateValue(id, start, end, duration) {
+            const obj = document.getElementById(id);
+            if(!obj) return;
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                // 判断是否有小数
+                let isFloat = end % 1 !== 0;
+                let val = progress * (end - start) + start;
+                obj.innerHTML = isFloat ? val.toFixed(1) : Math.floor(val);
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                } else {
+                     obj.innerHTML = end; // 确保最终值准确
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+    </script>
+</body>
+</html>
